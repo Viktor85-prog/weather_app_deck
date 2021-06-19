@@ -95,30 +95,10 @@ h6 {
 
 /* конец обнуления*/
 
-.App {
+.wrapper {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   max-width: 1180px;
   padding: 20px;
-
-  background-color: rgb(0, 162, 255);
-}
-.App__container {
-  width: 600px;
-  background-color: aqua;
-  padding: 10px;
-}
-
-.App__container span {
-  padding: 10px;
-  min-width: 150px;
-}
-.main {
-}
-
-.main__city {
-}
-
-.main__temp {
-}
-.main__any {
+  background-color: rgb(167, 188, 199);
 }
