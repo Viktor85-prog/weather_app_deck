@@ -1,7 +1,11 @@
 import { connect } from 'react-redux'
-import { getCityTemp as getCityTempAction, deleteCity as deleteCityAction } from './redux/modules/cityes'
+import {
+  getCityTemp as getCityTempAction,
+  deleteCity as deleteCityAction,
+  addCity as addCityAction
+} from './redux/modules/cityes'
 
-import MainCity from './Components/MainCity/MainCity';
+import MainCity from './Components/City/MainCity';
 import AddButton from './Components/AddButton/AddButton';
 import Form from './Components/Form/Form'
 import KazanCity from './Components/City/KazanCity'
@@ -11,7 +15,7 @@ import AnyCity from './Components/City/AnyCity'
 
 
 
-function App({ cityes, getCityTemp, deleteCity }) {
+function App({ cityes, getCityTemp, deleteCity, addCity }) {
 
   // const []
   // debugger;
@@ -32,7 +36,10 @@ function App({ cityes, getCityTemp, deleteCity }) {
           weather={item.weather}
           icon={item.icon}
         />)}
-      <AddButton />
+      <AddButton
+        addCity={addCity}
+
+      />
       {cityes.cityes.length && cityes.cityes.map(item =>
         <AnyCity
           deleteCity={deleteCity}
@@ -52,7 +59,8 @@ export default connect(
   ({ cityes }) => ({ cityes }),
   {
     getCityTemp: getCityTempAction,
-    deleteCity: deleteCityAction
+    deleteCity: deleteCityAction,
+    addCity: addCityAction
   }
   // mapStateToProps, mapDispatchToProps
 

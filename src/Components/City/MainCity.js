@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
-import './MainCity.css'
+import './AllCity.css'
 
 
 function MainCity() {
