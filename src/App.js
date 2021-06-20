@@ -7,9 +7,9 @@ import {
 
 import MainCity from './Components/City/MainCity';
 import AddButton from './Components/AddButton/AddButton';
-import Form from './Components/Form/Form'
+import ModalForm from './Components/Form/ModalForm'
 import KazanCity from './Components/City/KazanCity'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AnyCity from './Components/City/AnyCity'
 
 
@@ -17,14 +17,13 @@ import AnyCity from './Components/City/AnyCity'
 
 function App({ cityes, getCityTemp, deleteCity, addCity }) {
 
-  // const []
-  // debugger;
+  const [modalActive, setModalActive] = useState(true)
+
+
   useEffect(() => {
     getCityTemp()
   }, [])
 
-  console.log(cityes)
-  // getCityTemp()
   return (
     <div className="wrapper">
       <MainCity />
@@ -49,8 +48,9 @@ function App({ cityes, getCityTemp, deleteCity, addCity }) {
           weather={item.weather}
           icon={item.icon}
         />)}
+      <ModalForm active={modalActive} setActive={setModalActive} />
+      <button onClick={() => setModalActive(true)}>jnrhsnm</button>
 
-      {/* <Form /> */}
     </div >
   );
 }

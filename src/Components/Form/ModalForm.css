@@ -1,0 +1,73 @@
+/* .eform { */
+/* width: 300px; */
+/* height: 500px; */
+/* padding: 10px; */
+/* margin: 0px 0px 0px 150px;
+    background-color: #fff;
+    border: 1px solid black;
+    font-size: 15px;
+    line-height: 30px;
+    padding: 10px 10px 10px 30px;
+} */
+
+.modal {
+    height: 100vh;
+    width: 100vh;
+    font-size: 18px;
+    line-height: 30px;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+.modal.active {
+    opacity: 1;
+    /* transform: scale(1); */
+    pointer-events: all;
+}
+.modal__content {
+    padding: 10px 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 300px;
+    height: 400px;
+    margin: 100px 0px 0px 100px;
+    transform: scale(0.5);
+    transition: 0.4s all;
+}
+
+.modal__content.active {
+    transform: scale(1);
+}
+input {
+    height: 30px;
+    border: 1px solid black;
+}
+
+.modal__head {
+    display: flex;
+    padding: 10px;
+}
+.modal__name {
+    /* width: 220px; */
+    padding: 0 0 0 60px;
+}
+
+.exit {
+    font-size: 20px;
+    margin: 0px 0px 0px 80px;
+    width: 20px;
+    height: 20px;
+    background: url("../../assets/img/exit.png") 0 0 / contain no-repeat;
+    border-radius: 10px;
+}
+.exit:hover {
+    background-color: rgb(220, 220, 220);
+}
+.exit:active {
+    background-color: rgb(185, 13, 13);
+}
