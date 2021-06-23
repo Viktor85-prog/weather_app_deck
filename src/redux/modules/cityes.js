@@ -6,6 +6,9 @@ const GET_CITYES = `${moduleName}/GET_CITYES`
 const GET_MAIN_CITY = `${moduleName}/GET_MAIN_CITY`
 const DELETE_CITY = `${moduleName}/DELETE_CITY`
 const ADD_CITY = `${moduleName}/ADD_CITY`
+const ERROR = `${moduleName}/ERROR`
+const CURRENT_CITY_CALL = `${moduleName}/CURRENT_CITY_CALL`
+const CURRENT_CITY_EXIT = `${moduleName}/CURRENT_CITY_EXIT`
 
 
 const defaultState = {
@@ -16,6 +19,15 @@ const defaultState = {
         // icon: '01d'
     }]
     ,
+    error: '',
+    currentCity: {
+        cityName: 'Kazan',
+        temperature: 30,
+        icon: '01d',
+        sunrise: '',
+        sunset: '',
+        currentCityActive: false
+    },
     cityes: [
         {
             cityName: 'Moscow',
@@ -39,12 +51,12 @@ const defaultState = {
             icon: '01d'
 
         }
+
     ]
 }
 
 
 export default (state = defaultState, { type, payload }) => {
-    debugger
     switch (type) {
         case GET_MAIN_CITY:
             return {
@@ -83,6 +95,28 @@ export default (state = defaultState, { type, payload }) => {
                 ...state,
                 cityes: state.cityes.filter(item => item.cityName !== payload.cityName)
             }
+        case ERROR:
+            return { ...state, error: payload.err.response.data.message }
+        case CURRENT_CITY_CALL:
+            return {
+                ...state,
+                currentCity: {
+                    cityName: payload.name,
+                    temperature: (Math.round(payload.main.temp - 273.15)),
+                    icon: payload.weather[0].icon,
+                    sunrise: payload.sys.sunrise,
+                    sunset: payload.sys.sunset,
+                    currentCityActive: true
+                },
+            }
+        case CURRENT_CITY_EXIT:
+            return {
+                ...state,
+                currentCity: {
+                    currentCityActive: false
+                },
+            }
+
         default:
             return state
     }
@@ -110,7 +144,7 @@ export const addCity = (cityName) => async (dispatch) => {
             .then((data) => dispatch({ type: ADD_CITY, payload: data.data }))
 
     } catch (err) {
-        console.log(err)
+        dispatch({ type: ERROR, payload: { err } })
     }
 }
 
@@ -118,4 +152,25 @@ export const deleteCity = (cityName) => (dispatch) => {
     dispatch({ type: DELETE_CITY, payload: { cityName } })
 
 }
+
+// export const currentCityCall = (cityName) => (dispatch) => {
+//     dispatch({ type: CURRENT_CITY_CALL, payload: { cityName } })
+
 // }
+
+export const currentCityCall = (cityName) => async (dispatch) => {
+    try {
+        await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
+        )
+            .then((data) => dispatch({ type: CURRENT_CITY_CALL, payload: data.data }))
+
+    } catch (err) {
+        dispatch({ type: ERROR, payload: { err } })
+    }
+}
+
+export const currentCityExit = () => (dispatch) => {
+    dispatch({ type: CURRENT_CITY_EXIT })
+
+}

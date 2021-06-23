@@ -1,19 +1,14 @@
 import './AddButton.css'
-import { useState } from 'react';
 
-function AddButton({ addCity }) {
+function AddButton({ setModalActive }) {
 
-    const [newCityName, setNewCityName] = useState();
 
     return (
         <div>
             <button className="button"
-                onClick={() => { addCity(newCityName) }}
+                onClick={() => setModalActive(true)}
             >+
             </button >
-            <input className='addForm addFormCityName'
-                onChange={(e) => { setNewCityName(e.target.value) }} />
-            <input className='addForm addFormCityCode'></input>
         </div>
     );
 }

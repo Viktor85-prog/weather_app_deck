@@ -1,9 +1,11 @@
-const AnyCity = ({ cityName, temperature, weather, icon, deleteCity }) => {
+const AnyCity = ({ cityName, temperature, weather, icon, deleteCity, currentCityCall }) => {
 
     return (
         <div className="any">
             <div className="main">
-                <div className="main__city column">{cityName}</div>
+                <div className="main__city column"
+                    onClick={() => { currentCityCall(cityName) }}
+                >{cityName}</div>
                 <div className="main__temp column">{temperature}°C</div>
                 <div className="main__weather column">{weather}</div>
                 <div className="main__img column">
