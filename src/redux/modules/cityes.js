@@ -24,25 +24,37 @@ const defaultState = {
     searchCityActive: false,
     currentCity: {
         cityName: 'Kazan',
-        temperature: 30,
-        icon: '01d',
-        sunrise: '',
-        sunset: '',
-        currentCityActive: false
+        today: {
+            temperature: 30,
+            icon: '01d',
+            sunrise: '',
+            sunset: ''
+        },
+        tomorrow: {
+            temperature: 30,
+            icon: '01d',
+            sunrise: '',
+            sunset: '',
+        },
+        currentCityActive: false,
     },
     cityes: [
         {
             cityName: 'Moscow',
             temperature: 30,
             weather: 'жарко',
-            icon: '03d'
+            icon: '03d',
+            lat: '55.7522',
+            lon: '37.6156'
 
         },
         {
             cityName: 'New York',
             temperature: 25,
             weather: 'норм',
-            icon: '02d'
+            icon: '02d',
+            lat: '40.7143',
+            lon: '-74.006'
 
         },
 
@@ -50,7 +62,9 @@ const defaultState = {
             cityName: 'London',
             temperature: 27,
             weather: 'good',
-            icon: '01d'
+            icon: '01d',
+            lat: '51.5085',
+            lon: '-0.1257'
 
         }
 
@@ -81,6 +95,7 @@ export default (state = defaultState, { type, payload }) => {
                 }]
             }
         case ADD_CITY:
+            debugger
             return {
                 ...state,
                 cityes: [
@@ -89,8 +104,11 @@ export default (state = defaultState, { type, payload }) => {
                         cityName: payload.name,
                         temperature: (Math.round(payload.main.temp - 273.15)),
                         weather: payload.weather[0].main,
-                        icon: payload.weather[0].icon
+                        icon: payload.weather[0].icon,
+                        lat: payload.coord.lat,
+                        lon: payload.coord.lon
                     }]
+
             }
         case DELETE_CITY:
             return {
@@ -100,15 +118,24 @@ export default (state = defaultState, { type, payload }) => {
         case ERROR:
             return { ...state, error: payload.err.response.data.message }
         case CURRENT_CITY_CALL:
+            debugger
             return {
                 ...state,
                 currentCity: {
-                    cityName: payload.name,
-                    temperature: (Math.round(payload.main.temp - 273.15)),
-                    icon: payload.weather[0].icon,
-                    sunrise: payload.sys.sunrise,
-                    sunset: payload.sys.sunset,
-                    currentCityActive: true
+                    // cityName: cityName,
+                    currentCityActive: true,
+                    today: {
+                        temperature: (Math.round(payload.daily[0].temp.day - 273.15)),
+                        icon: payload.daily[0].weather[0].icon,
+                        sunrise: payload.daily[0].sunrise,
+                        sunset: payload.daily[0].sunset
+                    },
+                    tomorrow: {
+                        temperature: (Math.round(payload.daily[1].temp.day - 273.15)),
+                        icon: payload.daily[1].weather[0].icon,
+                        sunrise: payload.daily[1].sunrise,
+                        sunset: payload.daily[1].sunset
+                    },
                 },
             }
         case CURRENT_CITY_EXIT:
@@ -163,16 +190,15 @@ export const deleteCity = (cityName) => (dispatch) => {
 
 }
 
-export const currentCityCall = (cityName) => async (dispatch) => {
+export const currentCityCall = (cityName, lat, lon) => async (dispatch) => {
     try {
         await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
-            // `https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${cityName}&appid=${API_KEY}`
-
+            // `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
+            // `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}`
         )
 
-            .then((data) => dispatch({ type: CURRENT_CITY_CALL, payload: data.data }))
-
+            .then((data) => dispatch({ type: CURRENT_CITY_CALL, payload: data.data, cityName }))
     } catch (err) {
         dispatch({ type: ERROR, payload: { err } })
     }

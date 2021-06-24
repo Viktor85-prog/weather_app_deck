@@ -24,16 +24,23 @@ import CurrentCity from "./Components/Form/CarrentCity"
 
 
 function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, currentCityExit, searchCityHandle }) {
-  // debugger
-  // moment().format('LTS'); 
-  console.log(cityes)
-  console.log(cityes.currentCity.sunrise)
-  console.log(cityes.currentCity.sunset)
-  let sun = moment(cityes.currentCity.sunrise).format('llll');
-  console.log(sun)
-  // let set = moment.duration(cityes.currentCity.sunset, 'minutes').format('');
-  // moment.duration(123, 'months').format()
-  // console.log(set)
+  debugger
+  let sunrise = 1624495529
+  let sunset = 1624558699
+
+  function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return console.log(hDisplay + mDisplay + sDisplay);
+  }
+  secondsToHms(1624495529)
+
 
   useEffect(() => {
     getCityTemp()
@@ -59,6 +66,8 @@ function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, curren
           currentCityCall={currentCityCall}
           deleteCity={deleteCity}
           cityName={item.cityName}
+          lat={item.lat}
+          lon={item.lon}
           key={item.cityName}
           temperature={item.temperature}
           weather={item.weather}
@@ -76,11 +85,13 @@ function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, curren
         error={cityes.error}
         active={cityes.currentCity.currentCityActive}
         currentCityExit={currentCityExit}
-        cityName={cityes.currentCity.cityName}
-        temperature={cityes.currentCity.temperature}
-        icon={cityes.currentCity.icon}
-        sunrise={cityes.currentCity.sunrise}
-        sunset={cityes.currentCity.sunset}
+        // cityName={cityes.currentCity.cityName}
+
+        currentCity={cityes.currentCity}
+      // todayTemperature={cityes.currentCity.temperature}
+      // todayIcon={cityes.currentCity.icon}
+      // todaySunrise={cityes.currentCity.sunrise}
+      // sunset={cityes.currentCity.sunset}
       />
     </div >
   );

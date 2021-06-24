@@ -3,13 +3,13 @@ import './AllCity.css'
 
 
 
-const AnyCity = ({ cityName, temperature, weather, icon, deleteCity, currentCityCall }) => {
-
+const AnyCity = ({ cityName, lat, lon, temperature, weather, icon, deleteCity, currentCityCall }) => {
+    // debugger
     return (
         <div className="any">
             <div className="main">
                 <div className="main__city column"
-                    onClick={() => { currentCityCall(cityName) }}
+                    onClick={() => { currentCityCall(cityName, lat, lon) }}
                 >{cityName}</div>
                 <div className="main__temp column">{temperature}°C</div>
                 <div className="main__weather column">{weather}</div>
