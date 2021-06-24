@@ -1,10 +1,11 @@
-import './ModalForm.css'
+import './SearchCity.css'
 import './CurrentCity.css'
 import { useState } from 'react';
 
 
 const CurrentCity = ({ active, cityName, temperature, icon, currentCityExit }) => {
-    debugger
+    // debugger
+    // console.log()
 
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => currentCityExit()}>

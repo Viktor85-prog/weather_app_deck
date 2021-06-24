@@ -9,6 +9,7 @@ const ADD_CITY = `${moduleName}/ADD_CITY`
 const ERROR = `${moduleName}/ERROR`
 const CURRENT_CITY_CALL = `${moduleName}/CURRENT_CITY_CALL`
 const CURRENT_CITY_EXIT = `${moduleName}/CURRENT_CITY_EXIT`
+const SEARCH_CITY_HANDLE = `${moduleName}/SEARCH_CITY_HANDLE`
 
 
 const defaultState = {
@@ -20,6 +21,7 @@ const defaultState = {
     }]
     ,
     error: '',
+    searchCityActive: false,
     currentCity: {
         cityName: 'Kazan',
         temperature: 30,
@@ -37,7 +39,7 @@ const defaultState = {
 
         },
         {
-            cityName: 'NewYork',
+            cityName: 'New York',
             temperature: 25,
             weather: 'норм',
             icon: '02d'
@@ -113,8 +115,15 @@ export default (state = defaultState, { type, payload }) => {
             return {
                 ...state,
                 currentCity: {
+                    ...state.currentCity,
                     currentCityActive: false
                 },
+            }
+        case SEARCH_CITY_HANDLE:
+            return {
+                ...state,
+                searchCityActive: payload
+
             }
 
         default:
@@ -136,10 +145,11 @@ export const getCityTemp = () => async (dispatch) => {
     }
 }
 
-export const addCity = (cityName) => async (dispatch) => {
+export const addCity = (cityName, cityId) => async (dispatch) => {
     try {
-        await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
+        await axios.get(cityName ?
+            (`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`) :
+            (`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}`)
         )
             .then((data) => dispatch({ type: ADD_CITY, payload: data.data }))
 
@@ -153,16 +163,14 @@ export const deleteCity = (cityName) => (dispatch) => {
 
 }
 
-// export const currentCityCall = (cityName) => (dispatch) => {
-//     dispatch({ type: CURRENT_CITY_CALL, payload: { cityName } })
-
-// }
-
 export const currentCityCall = (cityName) => async (dispatch) => {
     try {
         await axios.get(
             `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
+            // `https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${cityName}&appid=${API_KEY}`
+
         )
+
             .then((data) => dispatch({ type: CURRENT_CITY_CALL, payload: data.data }))
 
     } catch (err) {
@@ -174,3 +182,8 @@ export const currentCityExit = () => (dispatch) => {
     dispatch({ type: CURRENT_CITY_EXIT })
 
 }
+export const searchCityHandle = (payload) => (dispatch) => {
+    dispatch({ type: SEARCH_CITY_HANDLE, payload: payload })
+}
+
+

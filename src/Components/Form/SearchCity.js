@@ -1,31 +1,23 @@
-import './ModalForm.css'
+import './SearchCity.css'
 import { useState } from 'react';
 
 
-const ModalForm = ({ active, setActive, addCity, error }) => {
+const SearchCity = ({ active, addCity, searchCityHandle }) => {
 
     const [newCityName, setNewCityName] = useState();
-
-    const onButtonClick = (newCityName) => {
-
-        addCity(newCityName);
-        // setActive(false);
-        // setNewCityName('')
-        // setTimeout(setActive(false), 3000);
-        // f1000()
-    }
+    const [newCityId, setNewCityId] = useState();
+    // <div className='modal__error'>{error ? (error) : ' '}</div>
 
 
     return (
         <div>
-            {/* <div >{error ? (error) : ''}</div> */}
-            <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
+            <div className={active ? "modal active" : "modal"} onClick={() => searchCityHandle(false)}>
                 <div class={active ? "modal__content active" : "modal__content"} onClick={(e) => e.stopPropagation()}>
                     <div className="modal__head">
                         <div>
                             <h2 className="modal__name">Добавить</h2>
                         </div>
-                        <div><button className="exit" onClick={() => setActive(false)}></button></div>
+                        <div><button className="exit" onClick={() => searchCityHandle(false)}></button></div>
                     </div>
                     <div class="modal__container">
                         <div className='modal__cityname'>
@@ -38,16 +30,17 @@ const ModalForm = ({ active, setActive, addCity, error }) => {
                         </div>
                         <div className='modal__citykey'>
                             <h2>Код</h2>
-                            <input type="text" name="citykey" placeholder="введите код города" />
+                            <input
+                                onChange={(e) => { setNewCityId(e.target.value) }}
+                                type="text"
+                                name="citykey"
+                                placeholder="введите код города" />
                         </div>
                     </div>
+
                     <div >
                         <button type="submit" className='modal__submit'
-                            onClick={() => { onButtonClick(newCityName) }}
-                        // onClick={onButtonClick(newCityName)}
-                        // onClick={() => { addCity(newCityName) }}
-                        // onClick={() => setActive(false)}
-                        // onClick={() => { setNewCityName(newCityName = '') }}
+                            onClick={() => { addCity(newCityName, newCityId) }}
                         >
                             Сохранить</button></div>
                 </div>
@@ -57,4 +50,4 @@ const ModalForm = ({ active, setActive, addCity, error }) => {
 
 }
 
-export default ModalForm;
+export default SearchCity;

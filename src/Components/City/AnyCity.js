@@ -1,3 +1,8 @@
+import './AllCity.css'
+
+
+
+
 const AnyCity = ({ cityName, temperature, weather, icon, deleteCity, currentCityCall }) => {
 
     return (

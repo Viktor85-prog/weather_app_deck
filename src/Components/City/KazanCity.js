@@ -1,3 +1,7 @@
+import './AllCity.css'
+
+
+
 const City = ({ cityName, temperature, weather, icon }) => {
 
     return (

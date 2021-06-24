@@ -80,3 +80,8 @@ input {
 .modal__submit:active {
     background-color: rgb(151, 151, 151);
 }
+
+.modal__error {
+    font-size: 30px;
+    color: red;
+}

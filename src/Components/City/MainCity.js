@@ -8,7 +8,7 @@ function MainCity() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const API_KEY = '0d56ed01b42743ed94fbfe658c541709';
-    const city = "Kazan"
+    // const city = "Kazan"
 
     const [weather, setWeather] = useState('HOT');
     const [temperature, setTemperature] = useState(30);
@@ -31,7 +31,6 @@ function MainCity() {
             setTemperature(Math.round(res.data.main.temp - 273.15))
             setWeather(res.data.weather[0].main)
             setIcon(res.data.weather[0].icon)
-            console.log(res.data)
 
         } catch (err) {
             console.log(err)

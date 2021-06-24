@@ -1,26 +1,39 @@
 import { connect } from 'react-redux'
+import moment from 'moment';
+import { duration } from 'moment';
 import {
   getCityTemp as getCityTempAction,
   deleteCity as deleteCityAction,
   addCity as addCityAction,
   currentCityCall as currentCityCallAction,
-  currentCityExit as currentCityExitAction
+  currentCityExit as currentCityExitAction,
+  searchCityHandle as searchCityHandleAction
+  // searchCityCall as searchCityCallAction
 } from './redux/modules/cityes'
 
 import MainCity from './Components/City/MainCity';
 import AddButton from './Components/AddButton/AddButton';
-import ModalForm from './Components/Form/ModalForm'
+import SearchCity from './Components/Form/SearchCity'
 import KazanCity from './Components/City/KazanCity'
 import { useEffect, useState } from 'react';
 import AnyCity from './Components/City/AnyCity'
 import CurrentCity from "./Components/Form/CarrentCity"
+// import Error from './Components/Form/Error'
 
 
 
 
-function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, currentCityExit }) {
-  debugger
-  const [modalActive, setModalActive] = useState(true)
+function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, currentCityExit, searchCityHandle }) {
+  // debugger
+  // moment().format('LTS'); 
+  console.log(cityes)
+  console.log(cityes.currentCity.sunrise)
+  console.log(cityes.currentCity.sunset)
+  let sun = moment(cityes.currentCity.sunrise).format('llll');
+  console.log(sun)
+  // let set = moment.duration(cityes.currentCity.sunset, 'minutes').format('');
+  // moment.duration(123, 'months').format()
+  // console.log(set)
 
   useEffect(() => {
     getCityTemp()
@@ -37,7 +50,7 @@ function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, curren
           icon={item.icon}
         />)}
       <AddButton
-        setModalActive={setModalActive}
+        searchCityHandle={searchCityHandle}
       />
       {cityes.cityes.length ? cityes.cityes.map(item =>
 
@@ -51,11 +64,14 @@ function App({ cityes, getCityTemp, deleteCity, addCity, currentCityCall, curren
           weather={item.weather}
           icon={item.icon}
         />) : 'Добавьте город'}
-      <ModalForm
+      <SearchCity
         addCity={addCity}
-        active={modalActive}
+        active={cityes.searchCityActive}
         error={cityes.error}
-        setActive={setModalActive} />
+        searchCityHandle={searchCityHandle}
+      />
+      {/* <Error /> */}
+
       <CurrentCity
         error={cityes.error}
         active={cityes.currentCity.currentCityActive}
@@ -75,6 +91,7 @@ export default connect(
   // ({error}) => (error)
   ,
   {
+    searchCityHandle: searchCityHandleAction,
     currentCityExit: currentCityExitAction,
     currentCityCall: currentCityCallAction,
     getCityTemp: getCityTempAction,

@@ -1,12 +1,12 @@
 import './AddButton.css'
 
-function AddButton({ setModalActive }) {
+function AddButton({ searchCityHandle }) {
 
 
     return (
         <div>
             <button className="button"
-                onClick={() => setModalActive(true)}
+                onClick={() => searchCityHandle(true)}
             >+
             </button >
         </div>
