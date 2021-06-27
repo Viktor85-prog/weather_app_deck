@@ -127,14 +127,14 @@ export default (state = defaultState, { type, payload }) => {
                     today: {
                         temperature: (Math.round(payload.daily[0].temp.day - 273.15)),
                         icon: payload.daily[0].weather[0].icon,
-                        sunrise: payload.daily[0].sunrise,
-                        sunset: payload.daily[0].sunset
+                        sunrise: (payload.daily[0].sunrise),
+                        sunset: (payload.daily[0].sunset)
                     },
                     tomorrow: {
                         temperature: (Math.round(payload.daily[1].temp.day - 273.15)),
                         icon: payload.daily[1].weather[0].icon,
-                        sunrise: payload.daily[1].sunrise,
-                        sunset: payload.daily[1].sunset
+                        sunrise: (payload.daily[1].sunrise),
+                        sunset: (payload.daily[1].sunset)
                     },
                 },
             }
@@ -191,6 +191,7 @@ export const deleteCity = (cityName) => (dispatch) => {
 }
 
 export const currentCityCall = (cityName, lat, lon) => async (dispatch) => {
+
     try {
         await axios.get(
             // `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`
